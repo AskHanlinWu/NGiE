@@ -46,9 +46,7 @@ namespace NGiE
     /// </summary>
     public partial class MainWindow : Window
     {
-
-
-
+        
         private static bool EnableErrorLog = true;
 
         public MainWindow()
