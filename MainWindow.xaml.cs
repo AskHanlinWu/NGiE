@@ -46,7 +46,7 @@ namespace NGiE
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
         private static bool EnableErrorLog = true;
 
         public MainWindow()
@@ -185,21 +185,28 @@ namespace NGiE
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnStart_Click(object sender, RoutedEventArgs e)
         {
-            //The files that we are working with
-            string sourceFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            try
+            {
+                //The files that we are working with
+                string sourceFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            string sourceFile = lblPDF1FullPath.Content.ToString();
-            string destFile = System.IO.Path.Combine(sourceFolder, "temp.pdf");
-            // action 1. split
-            KeepSelectedPages(lblPDF1FullPath.Content.ToString(), "1-8", destFile);
+                string sourceFile = lblPDF1FullPath.Content.ToString();
+                string destFile = System.IO.Path.Combine(sourceFolder, "temp.pdf");
+                // action 1. split
+                KeepSelectedPages(lblPDF1FullPath.Content.ToString(), "1-8", destFile);
 
-            string finalFile = System.IO.Path.Combine(sourceFolder, "final.pdf");
+                string finalFile = System.IO.Path.Combine(sourceFolder, "final.pdf");
 
-            // action 2. merge
-            IEnumerable<string> filenames = new string[] { destFile, "full path of file that will be combined" };
-            MergePDFs(filenames, finalFile);
+                // action 2. merge
+                IEnumerable<string> filenames = new string[] { destFile, "full path of file that will be combined" };
+                MergePDFs(filenames, finalFile);
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteErrorMessageToFile(ex.ToString(), EnableErrorLog);
+            }
         }
 
 
@@ -372,7 +379,19 @@ namespace NGiE
         {
             try
             {
-                Close(); // close the application
+                Close(); // close the application           
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteErrorMessageToFile(ex.ToString(), EnableErrorLog);
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                WindowState = WindowState.Minimized;
             }
             catch (Exception ex)
             {

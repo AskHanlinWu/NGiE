@@ -7,57 +7,112 @@
         xmlns:dd="urn:gong-wpf-dragdrop"
       
         AllowsTransparency="True"
-        WindowStyle="None"       
-        Background="Transparent" 
+        Background="Transparent"  
+        WindowStyle="None"            
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
    
         xmlns:local="clr-namespace:NGiE"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Loaded="Window_Loaded" Margin="10" >
+        Title="NGiE PDF Tool" Height="600" Width="800" Loaded="Window_Loaded" Margin="10" >
 
-    <Grid Background="White" Margin="5">
-
+    <Grid Background="#FFF3F7FA" Margin="5">
         <Grid.Effect>
             <DropShadowEffect BlurRadius="10" Direction="-90" RenderingBias="Quality" ShadowDepth="1" Opacity="0.5"/>
         </Grid.Effect>
 
+        <Grid x:Name="stackPnlHeader" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="790" MouseDown="stackPnlHeader_MouseDown" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="367*"/>
+                <ColumnDefinition Width="28*"/>
+            </Grid.ColumnDefinitions>
 
-        <!--FFF3F7FA-->
-        <StackPanel x:Name="stackPnlHeader" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="790" MouseDown="stackPnlHeader_MouseDown" Background="#FFF3F7FA">
+            <!-- ******************************* Close Button ******************************* -->
+            <Button x:Name="CloseButton" Height="20" Width="20" Content="X" Margin="31,5,5,47" Click="CloseButton_Click" ToolTip="Close"
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Regular" 
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                            RenderTransformOrigin="0.51,0.5" Grid.Column="1" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#FFFFFF">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Content" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bdr_main" Property="Background" Value="#FFFFFF"/>
+                                <Setter Property="Background" Value="#FFFFFF"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bdr_main" Property="Background" Value="#2ecc71"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- ******************************* Minimize Button ******************************* -->
+            <Button x:Name="MinimizeButton" Height="20" Width="20" Content="__" Margin="6,5,30,47" Click="MinimizeButton_Click" ToolTip="Minimize"
+                            FontFamily="Helvetica" FontSize="15" FontWeight="Regular" 
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                            RenderTransformOrigin="0.51,0.5" Grid.Column="1" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#FFFFFF">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bdr_main" Property="Background" Value="#FFFFFF"/>
+                                <Setter Property="Background" Value="#FFFFFF"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bdr_main" Property="Background" Value="#2ecc71"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+
+            <Label Content="NGiE" Foreground="White" FontWeight="Bold" FontSize="35" FontFamily="Helvetica" VerticalContentAlignment="Center" Margin="5,5,229,5" />
+
             <!--Gradient let friend see-->
-            <!--<StackPanel.Background>
+            <Grid.Background>
                 <LinearGradientBrush EndPoint="1,0" MappingMode="RelativeToBoundingBox"  StartPoint="0,1">
                     <GradientStop Color="#FF00BBF1"/>
                     <GradientStop Color="#FF0078D4" Offset="1"/>
                 </LinearGradientBrush>
-            </StackPanel.Background>-->
-        </StackPanel>
+            </Grid.Background>
+        </Grid>
 
-        <Button Name="CloseButton" Content="X" Margin="255,537,498,28" Click="CloseButton_Click" HorizontalAlignment="Center" Width="37"/>
-        <Label x:Name="lblPDF1FullPath" Content="PDF1 Path" HorizontalAlignment="Left" Margin="78,470,0,0" VerticalAlignment="Top"/>
-        <Button Content="START" HorizontalAlignment="Left" Margin="630,543,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Label x:Name="lblPDF1FullPath" Content="PDF1 Path" HorizontalAlignment="Left" Margin="220,513,0,47" VerticalContentAlignment="Center" FontSize="14" Height="30" FontFamily="Helvetica" Foreground="#5B6976" FontWeight="Bold"/>
 
 
+        <!-- ********************************************** DataGrid Start Here ********************************************** -->
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" Height="Auto" Margin="0,72,0,82" Background="#FFF0F0F0">
 
-        <Image gif:ImageBehavior.RepeatBehavior="3x" gif:ImageBehavior.AnimatedSource="Images/source.gif" Margin="39,504,634,27" HorizontalAlignment="Center" Width="117" />
-
-        <ScrollViewer  VerticalScrollBarVisibility="Auto" Height="Auto" Margin="0,72,0,143" Background="#FFF0F0F0">
-
-            <!-- ********************************************** DataGrid Start Here ********************************************** -->
             <DataGrid x:Name="dgPDFs" SelectionMode="Extended"
              CanUserAddRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False"
              AutoGenerateColumns="False" GridLinesVisibility="None"
              dd:DragDrop.IsDragSource="True"  HeadersVisibility="Column" AlternatingRowBackground="#FFF0F0F0"
-             dd:DragDrop.IsDropTarget="True" PreviewKeyDown="dgPDFs_PreviewKeyDown" BorderBrush="#FFD6D8DD" Background="White" Height="375" BorderThickness="0,1,0,1">
+             dd:DragDrop.IsDropTarget="True" PreviewKeyDown="dgPDFs_PreviewKeyDown" BorderBrush="#FFD6D8DD" Background="White" Height="435" BorderThickness="0,1,0,1">
 
                 <!-- Set Selected Row BackColor -->
                 <DataGrid.Resources>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#2687FB"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FF0078D4"/>
                     <!-- ** "InactiveSelectionHighlightBrushKey" is when you select a row, and click somewhere else (un-focus) ** -->
-                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2687FB"/>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#FF0078D4"/>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
-
                 </DataGrid.Resources>
 
                 <!-- Set Header Style -->
@@ -75,11 +130,10 @@
                         <Setter Property="Foreground" Value="#5B6976" />
                         <Setter Property="Padding" Value="5, 0, 0, 0" />
                         <!--left up right down-->
-                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontSize" Value="15"/>
                         <Setter Property="FontFamily" Value="Helvetica"/>
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
-
 
                 <DataGrid.Columns>
                     <!-- ******* Column 01 Icon ******* -->
@@ -108,7 +162,6 @@
                                         <Setter Property="Cursor" Value="ScrollAll"/>
                                     </Trigger>
                                 </Style.Triggers>
-
                             </Style>
                         </DataGridTemplateColumn.CellStyle>
                     </DataGridTemplateColumn>
@@ -181,41 +234,37 @@
 
                     </DataGridTextColumn>
                 </DataGrid.Columns>
-
                 <!--<DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Delete">THIS IS RIGHT CLICK MENU</MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>-->
             </DataGrid>
+        </ScrollViewer>
 
-        </ScrollViewer >
-
-
-
-        <!-- ******************************* Remove Button ******************************* -->
-        <Button x:Name="btnDeletePDF" Width="100" Height="30" Content="Remove" Margin="368,483,322,77" Click="btnDeletePDF_Click" 
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Regular" 
+        <!-- ******************************* REMOVE Button ******************************* -->
+        <Button x:Name="btnDeletePDF" Width="100" Height="30" Content="Remove" Margin="115,513,575,47" Click="btnDeletePDF_Click" 
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Bold"  ToolTip="Remove PDF Files"
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#EB493F">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="2" BorderBrush="#c0392b">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="Foreground" Value="#EB493F"/>
+                            <Setter Property="Foreground" Value="#c0392b"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bdr_main" Property="Background" Value="#EB493F"/>
-                            <Setter Property="Background" Value="#EB493F"/>
+                            <Setter TargetName="bdr_main" Property="Background" Value="#c0392b"/>
+                            <Setter Property="Background" Value="#c0392b"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Cursor" Value="Hand"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="bdr_main" Property="Background" Value="Red"/>
+                            <Setter TargetName="bdr_main" Property="Background" Value="#e74c3c "/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -223,34 +272,61 @@
         </Button>
 
         <!-- ******************************* ADD Button ******************************* -->
-        <Button x:Name="btnSelectPDFs" Width="100" Height="30" Content="Add PDFs" Margin="520,483,170,77" Click="btnAddPDFs_Click" 
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Regular" 
-                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
-                            HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <Button x:Name="btnSelectPDFs" Height="30" Content="Add PDF" Margin="0,513,680,0" Click="btnAddPDFs_Click"  ToolTip="Add PDF Files"
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Bold" 
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#2687FB">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="2" BorderBrush="#FF0078D4">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="Foreground" Value="#2687FB"/>
+                            <Setter Property="Foreground" Value="#FF0078D4"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bdr_main" Property="Background" Value="#2687FB"/>
-                            <Setter Property="Background" Value="#2687FB"/>
+                            <Setter TargetName="bdr_main" Property="Background" Value="#FF0078D4"/>
+                            <Setter Property="Background" Value="#FF0078D4"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="Cursor" Value="Hand"/>
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="bdr_main" Property="Background" Value="Blue"/>
+                            <Setter TargetName="bdr_main" Property="Background" Value="#3498db"/>
+
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Button.Template>
         </Button>
 
+        <!-- ******************************* START Button ******************************* -->
+        <Button x:Name="btnStart" Width="100" Height="30" Content="GENERATE" Margin="680,550,10,10" Click="btnStart_Click" 
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Bold"  ToolTip="Generate PDF Document"
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.51,0.5" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="2" BorderBrush="#27ae60">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="#27ae60"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bdr_main" Property="Background" Value="#27ae60"/>
+                            <Setter Property="Background" Value="#27ae60"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="bdr_main" Property="Background" Value="#2ecc71"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 
