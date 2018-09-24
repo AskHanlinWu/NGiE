@@ -84,7 +84,7 @@
             </Button>
 
 
-            <Label Content="NGiE" Foreground="White" FontWeight="Bold" FontSize="35" FontFamily="Helvetica" VerticalContentAlignment="Center" Margin="5,5,229,5" />
+            <Label Content="NGiE" Foreground="White" FontWeight="Bold" FontSize="35" FontFamily="Helvetica" VerticalContentAlignment="Center" Margin="10,5,229,5" />
 
             <!--Gradient let friend see-->
             <Grid.Background>
@@ -95,7 +95,7 @@
             </Grid.Background>
         </Grid>
 
-        <Label x:Name="lblPDF1FullPath" Content="PDF1 Path" HorizontalAlignment="Left" Margin="220,513,0,47" VerticalContentAlignment="Center" FontSize="14" Height="30" FontFamily="Helvetica" Foreground="#5B6976" FontWeight="Bold"/>
+        <Label x:Name="lblPDF1FullPath" Content="PDF1 Path" HorizontalAlignment="Left" Margin="220,513,0,47" VerticalContentAlignment="Center" FontSize="16" Height="30" FontFamily="Helvetica" Foreground="#5B6976" FontWeight="Medium"/>
 
 
         <!-- ********************************************** DataGrid Start Here ********************************************** -->
@@ -244,7 +244,7 @@
 
         <!-- ******************************* REMOVE Button ******************************* -->
         <Button x:Name="btnDeletePDF" Width="100" Height="30" Content="Remove" Margin="115,513,575,47" Click="btnDeletePDF_Click" 
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Bold"  ToolTip="Remove PDF Files"
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Medium"  ToolTip="Remove PDF Files"
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Button.Template>
@@ -273,7 +273,7 @@
 
         <!-- ******************************* ADD Button ******************************* -->
         <Button x:Name="btnSelectPDFs" Height="30" Content="Add PDF" Margin="0,513,680,0" Click="btnAddPDFs_Click"  ToolTip="Add PDF Files"
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Bold" 
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Medium" 
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -302,7 +302,7 @@
 
         <!-- ******************************* START Button ******************************* -->
         <Button x:Name="btnStart" Width="100" Height="30" Content="GENERATE" Margin="680,550,10,10" Click="btnStart_Click" 
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Bold"  ToolTip="Generate PDF Document"
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Medium"  ToolTip="Generate PDF Document"
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.51,0.5" >
             <Button.Template>
