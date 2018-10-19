@@ -14,6 +14,8 @@ namespace NGiE
         public string fullPath { get; set; }
         public string extension { get; set; }
 
+        public int pages { get; set; }
+
         public string iconFullPath { get; set; }
         /// <summary>
         /// Actual file size (length) in byte

@@ -70,9 +70,9 @@ namespace NGiE
                 List<CustomPDFDocumentDetails> lstPDFs = ImportSelectedPDFFiles();
 
                 // Step 02 (OPTIONAL). Get PDF details (using iTextSharp)
-                //lstPDFs = GetSelectedPDFFileDetails(lstPDFs);
+                lstPDFs = GetSelectedPDFFileDetails(lstPDFs);
 
-                // Step 03. Add items to listbox
+                // Step 03. Add items to listbox (grid)
                 AddSelectedPDFsToListBox(lstPDFs);
             }
             catch (Exception ex)
@@ -126,7 +126,9 @@ namespace NGiE
                     if (File.Exists(filePath))
                     {
                         PdfReader pdfReader = new PdfReader(filePath);
-                        // TO DO: get PDF details with iTextSharp
+
+                        // TO DO: get PDF details with iTextSharp - what if PDF is corrupted? need to handle this.
+                        lstPDFs[i].pages = pdfReader.NumberOfPages;
 
                         pdfReader.Close();
                     }
@@ -161,10 +163,12 @@ namespace NGiE
                     {
                         CustomPDFDocumentDetails pdf = new CustomPDFDocumentDetails();
 
+                        // IMPORTANT - this only gets basic file info. To get PDF file detailed info: go to this method - GetSelectedPDFFileDetails
                         pdf.fullPath = ofd.FileNames[i]; // this is FULL file path
                         pdf.fileName = System.IO.Path.GetFileNameWithoutExtension(ofd.SafeFileNames[i]); // this is only file name WITHOUT extension               
                         pdf.extension = System.IO.Path.GetExtension(pdf.fullPath); // this will be: .pdf
                         pdf.fileSizeInByte = new System.IO.FileInfo(pdf.fullPath).Length; // this will get actual file size in Byte
+                        
 
                         if (pdf.extension.ToLower() == ".pdf")
                         {
@@ -497,5 +501,6 @@ namespace NGiE
             }
         }
 
+      
     }
 }

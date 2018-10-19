@@ -95,17 +95,17 @@
             </Grid.Background>
         </Grid>
 
-        <Label x:Name="lblPDF1FullPath" Content="PDF1 Path" HorizontalAlignment="Left" Margin="220,513,0,47" VerticalContentAlignment="Center" FontSize="16" Height="30" FontFamily="Helvetica" Foreground="#5B6976" FontWeight="Medium"/>
+        <Label x:Name="lblPDF1FullPath" Content="PDF1 Path" HorizontalAlignment="Left" Margin="232,540,0,20" VerticalContentAlignment="Center" FontSize="16" Height="30" FontFamily="Helvetica" Foreground="#5B6976" FontWeight="Normal"/>
 
 
         <!-- ********************************************** DataGrid Start Here ********************************************** -->
-        <ScrollViewer  VerticalScrollBarVisibility="Auto" Height="Auto" Margin="0,72,0,82" Background="#FFF0F0F0">
+        <ScrollViewer  VerticalScrollBarVisibility="Auto" Height="Auto" Margin="0,72,0,70" Background="#FFF0F0F0">
 
-            <DataGrid x:Name="dgPDFs" SelectionMode="Extended"
+            <DataGrid x:Name="dgPDFs" SelectionMode="Extended" 
              CanUserAddRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserResizeColumns="False" CanUserResizeRows="False"
              AutoGenerateColumns="False" GridLinesVisibility="None"
-             dd:DragDrop.IsDragSource="True"  HeadersVisibility="Column" AlternatingRowBackground="#FFF0F0F0"
-             dd:DragDrop.IsDropTarget="True" PreviewKeyDown="dgPDFs_PreviewKeyDown" BorderBrush="#FFD6D8DD" Background="White" Height="435" BorderThickness="0,1,0,1">
+             dd:DragDrop.IsDragSource="True"  HeadersVisibility="Column" AlternatingRowBackground="White"
+             dd:DragDrop.IsDropTarget="True" PreviewKeyDown="dgPDFs_PreviewKeyDown" BorderBrush="#FFD6D8DD" Background="White" Height="445" BorderThickness="0,1,0,1">
 
                 <!-- Set Selected Row BackColor -->
                 <DataGrid.Resources>
@@ -136,6 +136,8 @@
                 </DataGrid.ColumnHeaderStyle>
 
                 <DataGrid.Columns>
+
+
                     <!-- ******* Column 01 Icon ******* -->
                     <DataGridTemplateColumn Header="" IsReadOnly="True" Width="35">
                         <!-- Column 01: Icon File Full Path -->
@@ -144,7 +146,7 @@
                                 <Image Source="{Binding iconFullPath}" Width="32" Height="32" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                        <!-- Column 01: CellStyle -->
+                        <!-- Column 01: CellStyle (PDF icon) -->
                         <DataGridTemplateColumn.CellStyle>
                             <Style TargetType="{x:Type DataGridCell}">
                                 <Setter Property="Height" Value="35" />
@@ -199,8 +201,9 @@
                         </DataGridTextColumn.CellStyle>
                     </DataGridTextColumn>
 
-                    <!-- ******* Column 03 Size ******* -->
-                    <DataGridTextColumn Header="Size" IsReadOnly="True"  Binding="{Binding Path=fileSize}" Width="80">
+
+                    <!-- ******* Column 03 Pages ******* -->
+                    <DataGridTextColumn Header="Pages" IsReadOnly="True"  Binding="{Binding Path=pages}" Width="80">
                         <!-- Column 03: TextStyle -->
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
@@ -233,6 +236,43 @@
                         </DataGridTextColumn.CellStyle>
 
                     </DataGridTextColumn>
+
+
+
+                    <!-- ******* Column 04 Size ******* -->
+                    <DataGridTextColumn Header="Size" IsReadOnly="True"  Binding="{Binding Path=fileSize}" Width="80">
+                        <!-- Column 04: TextStyle -->
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                                <Setter Property="Padding" Value="5, 0, 0, 0" />
+                                <!--<Setter Property="Foreground"  Value="#5B6976" />-->
+
+                                <!--left up right down-->
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                        <!-- Column 04: CellStyle -->
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="Height" Value="35" />
+                                <Setter Property="FontWeight" Value="Regular" />
+                                <Setter Property="FontFamily" Value="Helvetica"/>
+                                <Setter Property="BorderBrush" Value="#FFD6D8DD" />
+                                <Setter Property="BorderThickness" Value="0, 0, 0, 1" />
+                                <Setter Property="HorizontalAlignment" Value="Stretch"  />
+                                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                <!--This removed "dotted" cell border when using keyboard-->
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Cursor" Value="ScrollAll"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
                 <!--<DataGrid.ContextMenu>
                     <ContextMenu>
@@ -243,13 +283,13 @@
         </ScrollViewer>
 
         <!-- ******************************* REMOVE Button ******************************* -->
-        <Button x:Name="btnDeletePDF" Width="100" Height="30" Content="Remove" Margin="115,513,575,47" Click="btnDeletePDF_Click" 
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Medium"  ToolTip="Remove PDF Files"
+        <Button x:Name="btnDeletePDF" Width="100" Height="30" Content="Remove" Margin="127,540,563,20" Click="btnDeletePDF_Click" 
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Normal"  ToolTip="Remove PDF Files"
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Center" VerticalAlignment="Center" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="2" BorderBrush="#c0392b">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#c0392b">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -272,12 +312,12 @@
         </Button>
 
         <!-- ******************************* ADD Button ******************************* -->
-        <Button x:Name="btnSelectPDFs" Height="30" Content="Add PDF" Margin="0,513,680,0" Click="btnAddPDFs_Click"  ToolTip="Add PDF Files"
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Medium" 
+        <Button x:Name="btnSelectPDFs" Height="30" Content="Add PDF" Margin="0,540,674,0" Click="btnAddPDFs_Click"  ToolTip="Add PDF Files"
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Normal" 
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="2" BorderBrush="#FF0078D4">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#FF0078D4">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -301,13 +341,13 @@
         </Button>
 
         <!-- ******************************* START Button ******************************* -->
-        <Button x:Name="btnStart" Width="100" Height="30" Content="GENERATE" Margin="680,550,10,10" Click="btnStart_Click" 
-                            FontFamily="Helvetica" FontSize="16" FontWeight="Medium"  ToolTip="Generate PDF Document"
+        <Button x:Name="btnStart" Width="100" Height="30" Content="GENERATE" Margin="680,540,10,20" Click="btnStart_Click" 
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Normal"  ToolTip="Generate PDF Document"
                             VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
                             HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.51,0.5" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="2" BorderBrush="#27ae60">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#27ae60">
                         <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
                     </Border>
                     <ControlTemplate.Triggers>
