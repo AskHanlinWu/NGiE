@@ -11,8 +11,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Application = System.Windows.Application;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace NGiE
 {
@@ -87,22 +91,15 @@ namespace NGiE
             {
                 if (lstPDFs != null)
                 {
-                    //lstbSelectedPDFs.ItemsSource = lstPDFs;
-
                     for (int i = 0; i < lstPDFs.Count; i++)
                     {
                         //ListBoxItem item = new ListBoxItem();
                         //item.Content = lstPDFs[i].fileName;
                         //item.ToolTip = lstPDFs[i].fileName;
-
                         lstPDFs[i].iconFullPath = @"..\Images\pdf.PNG";
 
                         dgPDFs.Items.Add(lstPDFs[i]);
-
                     }
-
-
-
                 }
             }
             catch (Exception ex)
@@ -168,7 +165,7 @@ namespace NGiE
                         pdf.fileName = System.IO.Path.GetFileNameWithoutExtension(ofd.SafeFileNames[i]); // this is only file name WITHOUT extension               
                         pdf.extension = System.IO.Path.GetExtension(pdf.fullPath); // this will be: .pdf
                         pdf.fileSizeInByte = new System.IO.FileInfo(pdf.fullPath).Length; // this will get actual file size in Byte
-                        
+
 
                         if (pdf.extension.ToLower() == ".pdf")
                         {
@@ -193,6 +190,31 @@ namespace NGiE
         {
             try
             {
+
+                //SaveWindow sw = new SaveWindow();
+                //sw.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
+                //sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                //sw.ShowDialog();
+
+                FolderBrowserDialog x = new FolderBrowserDialog();
+                x.RootFolder = Environment.SpecialFolder.Desktop;
+
+                System.Windows.Forms.DialogResult result = x.ShowDialog();
+
+
+                FileFolderDialog dialog = new FileFolderDialog();
+             
+
+                DialogResult dr = dialog.ShowDialog();
+
+                string folderPath = string.Empty;
+                if (dr == System.Windows.Forms.DialogResult.OK)
+                {
+                     folderPath = dialog.SelectedPath;
+                }
+                
+
+
                 //The files that we are working with
                 string sourceFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -477,7 +499,6 @@ namespace NGiE
                     RemoveSelectedPDFFromDataGrid();
                     e.Handled = true;
                 }
-
             }
             catch (Exception ex)
             {
@@ -501,6 +522,44 @@ namespace NGiE
             }
         }
 
-      
+        private void btnShowPDFDetails_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // reference: https://stackoverflow.com/questions/1168976/wpf-datagrid-button-in-a-column-getting-the-row-from-which-it-came-on-the-cli/4926268
+                CustomPDFDocumentDetails pdfDetail = ((FrameworkElement)sender).DataContext as CustomPDFDocumentDetails;
+
+
+                pdfDetail.pages = 1;
+
+                int currentIndex = dgPDFs.SelectedIndex;
+
+
+                SinglePDFDetailsWindow x = new SinglePDFDetailsWindow(EnableErrorLog);
+                x.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
+                x.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                x.ShowDialog();
+
+
+                // after made change, refresh the grid
+                dgPDFs.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteErrorMessageToFile(ex.ToString(), EnableErrorLog);
+            }
+        }
+
+        private void dgPDFs_Drop(object sender, System.Windows.DragEventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteErrorMessageToFile(ex.ToString(), EnableErrorLog);
+            }
+        }
     }
 }

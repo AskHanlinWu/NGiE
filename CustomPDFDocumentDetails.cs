@@ -10,6 +10,7 @@ namespace NGiE
 {
     public class CustomPDFDocumentDetails
     {
+       
         public string fileName { get; set; }
         public string fullPath { get; set; }
         public string extension { get; set; }
@@ -33,7 +34,7 @@ namespace NGiE
             }
         }
 
-        private bool _IsPDFPossibleCorrupted; 
+        private bool _IsPDFPossibleCorrupted;
         public bool IsPDFPossibleCorrupted
         {
             get
