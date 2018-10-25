@@ -189,45 +189,42 @@ namespace NGiE
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
             try
-            {
+            {      
+                // NOT USED NOW
+                // SaveWindow sw = new SaveWindow();
+                // sw.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
+                // sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                // sw.ShowDialog();
 
-                //SaveWindow sw = new SaveWindow();
-                //sw.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
-                //sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                //sw.ShowDialog();
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                fbd.RootFolder = Environment.SpecialFolder.Desktop;
+                fbd.Description = "Please select a folder to save PDF file.";
 
-                FolderBrowserDialog x = new FolderBrowserDialog();
-                x.RootFolder = Environment.SpecialFolder.Desktop;
-
-                System.Windows.Forms.DialogResult result = x.ShowDialog();
-
-
-                FileFolderDialog dialog = new FileFolderDialog();
-             
-
-                DialogResult dr = dialog.ShowDialog();
-
-                string folderPath = string.Empty;
-                if (dr == System.Windows.Forms.DialogResult.OK)
+                System.Windows.Forms.DialogResult fbdResult = fbd.ShowDialog();
+                if (fbdResult == System.Windows.Forms.DialogResult.OK)
                 {
-                     folderPath = dialog.SelectedPath;
+                    // Step 01. Now we have path FOR OUTPUT
+                    string outputFolder = fbd.SelectedPath;
+
+                    // Step 02. Process final PDF
+
+
+                    //The files that we are working with
+                    string tempFolder = System.IO.Path.GetTempPath(); //Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                    string sourceFile = lblPDF1FullPath.Content.ToString();
+                    string destFile = System.IO.Path.Combine(tempFolder, "temp.pdf");
+                    // action 1. split
+                    KeepSelectedPages(lblPDF1FullPath.Content.ToString(), "1-8", destFile);
+
+                    // define final PDF path & filename
+                    string finalFile = System.IO.Path.Combine(outputFolder, "final.pdf");
+
+                    // action 2. merge
+                    IEnumerable<string> filenames = new string[] { destFile, "full path of file that will be combined" };
+                    MergePDFs(filenames, finalFile);
+                    
                 }
-                
-
-
-                //The files that we are working with
-                string sourceFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-                string sourceFile = lblPDF1FullPath.Content.ToString();
-                string destFile = System.IO.Path.Combine(sourceFolder, "temp.pdf");
-                // action 1. split
-                KeepSelectedPages(lblPDF1FullPath.Content.ToString(), "1-8", destFile);
-
-                string finalFile = System.IO.Path.Combine(sourceFolder, "final.pdf");
-
-                // action 2. merge
-                IEnumerable<string> filenames = new string[] { destFile, "full path of file that will be combined" };
-                MergePDFs(filenames, finalFile);
             }
             catch (Exception ex)
             {
