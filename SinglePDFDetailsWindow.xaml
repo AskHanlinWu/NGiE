@@ -30,14 +30,66 @@
             </Grid.Background>
         </Grid>
 
+        <Label x:Name="lblSelectPages" Content="Select pages:" HorizontalAlignment="Left" Margin="10,35,0,225" VerticalContentAlignment="Center" FontSize="16" Height="30" FontFamily="Helvetica" Foreground="#5B6976" FontWeight="Normal"/>
 
+        
+        
 
+        <Button x:Name="btnOk" Height="30" Content="Ok" Margin="0,250,10,0" Click="btnOk_Click"  ToolTip="Ok"
+                            FontFamily="Helvetica" FontSize="16" FontWeight="Normal" 
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#FF0078D4">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="#FF0078D4"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bdr_main" Property="Background" Value="#FF0078D4"/>
+                            <Setter Property="Background" Value="#FF0078D4"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
 
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="bdr_main" Property="Background" Value="#3498db"/>
 
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+              
+        <Button x:Name="btnCancel" Width="100" Height="30" Content="Cancel" Margin="175,250,115,10" Click="btnCancel_Click" 
+            FontFamily="Helvetica" FontSize="16" FontWeight="Normal"  ToolTip="Cancel"
+            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+            HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="bdr_main" CornerRadius="2" Margin="0" BorderThickness="1" BorderBrush="#c0392b">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" ContentSource="Content" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="#c0392b"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bdr_main" Property="Background" Value="#c0392b"/>
+                            <Setter Property="Background" Value="#c0392b"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
 
-
-
-
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="bdr_main" Property="Background" Value="#e74c3c "/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
 
     </Grid>
 </Window>

@@ -166,7 +166,6 @@ namespace NGiE
                         pdf.extension = System.IO.Path.GetExtension(pdf.fullPath); // this will be: .pdf
                         pdf.fileSizeInByte = new System.IO.FileInfo(pdf.fullPath).Length; // this will get actual file size in Byte
 
-
                         if (pdf.extension.ToLower() == ".pdf")
                         {
                             lstPDFs.Add(pdf);
@@ -525,21 +524,23 @@ namespace NGiE
             {
                 // reference: https://stackoverflow.com/questions/1168976/wpf-datagrid-button-in-a-column-getting-the-row-from-which-it-came-on-the-cli/4926268
                 CustomPDFDocumentDetails pdfDetail = ((FrameworkElement)sender).DataContext as CustomPDFDocumentDetails;
-
-
-                pdfDetail.pages = 1;
-
-                int currentIndex = dgPDFs.SelectedIndex;
-
-
-                SinglePDFDetailsWindow x = new SinglePDFDetailsWindow(EnableErrorLog);
-                x.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
-                x.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                x.ShowDialog();
-
-
-                // after made change, refresh the grid
-                dgPDFs.Items.Refresh();
+                
+                SinglePDFDetailsWindow sw = new SinglePDFDetailsWindow(EnableErrorLog);
+                sw.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
+                sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                sw.ShowDialog();
+                
+                if (sw.DialogResult.HasValue && sw.DialogResult.Value)
+                {
+                    pdfDetail.userSelectedPages = sw.SelectedPages;
+                    
+                    // after made change, refresh the grid
+                    dgPDFs.Items.Refresh();
+                }
+                else
+                {
+                    // do nothing. User cancel the action.
+                }
             }
             catch (Exception ex)
             {

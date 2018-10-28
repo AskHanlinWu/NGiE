@@ -15,6 +15,8 @@ namespace NGiE
         public string fullPath { get; set; }
         public string extension { get; set; }
 
+        public string userSelectedPages { get; set; } 
+
         public int pages { get; set; }
 
         public string iconFullPath { get; set; }

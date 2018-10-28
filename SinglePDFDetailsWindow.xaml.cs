@@ -20,6 +20,8 @@ namespace NGiE
     public partial class SinglePDFDetailsWindow : Window
     {
 
+        public string SelectedPages = string.Empty;
+
         private bool EnableErrorLog = true;
 
         public SinglePDFDetailsWindow()
@@ -49,12 +51,11 @@ namespace NGiE
             }
         }
 
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Close(); // close the application           
+                this.DialogResult = true;
             }
             catch (Exception ex)
             {
@@ -62,6 +63,17 @@ namespace NGiE
             }
         }
 
-      
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                this.DialogResult = false; 
+                Close(); // close the window
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteErrorMessageToFile(ex.ToString(), EnableErrorLog);
+            }
+        }
     }
 }
