@@ -81,5 +81,15 @@ namespace NGiE
 
         }
 
+        public static bool IsNullOrBlank(string stringToCheck)
+        {
+            if (stringToCheck != null)
+            {
+                return stringToCheck.Trim() == string.Empty || stringToCheck.Trim() == "&nbsp;";
+            }
+
+            return true;
+        }
+
     }
 }

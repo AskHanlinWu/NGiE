@@ -188,7 +188,7 @@ namespace NGiE
         private void btnStart_Click(object sender, RoutedEventArgs e)
         {
             try
-            {      
+            {
                 // NOT USED NOW
                 // SaveWindow sw = new SaveWindow();
                 // sw.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
@@ -199,30 +199,50 @@ namespace NGiE
                 fbd.RootFolder = Environment.SpecialFolder.Desktop;
                 fbd.Description = "Please select a folder to save PDF file.";
 
+
                 System.Windows.Forms.DialogResult fbdResult = fbd.ShowDialog();
                 if (fbdResult == System.Windows.Forms.DialogResult.OK)
                 {
-                    // Step 01. Now we have path FOR OUTPUT
+                    // Now we have path FOR final PDF
                     string outputFolder = fbd.SelectedPath;
 
-                    // Step 02. Process final PDF
+                    // Step 02. Process PDFs              
+                    string tempFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // System.IO.Path.GetTempPath();
 
+                    List<string> lstTempFilesFullPathList = new List<string>();
 
-                    //The files that we are working with
-                    string tempFolder = System.IO.Path.GetTempPath(); //Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                    for (int i = 0; i < dgPDFs.Items.Count; i++)
+                    {
+                        CustomPDFDocumentDetails pdfDetail = (CustomPDFDocumentDetails)dgPDFs.Items[i];
 
-                    string sourceFile = lblPDF1FullPath.Content.ToString();
-                    string destFile = System.IO.Path.Combine(tempFolder, "temp.pdf");
-                    // action 1. split
-                    KeepSelectedPages(lblPDF1FullPath.Content.ToString(), "1-8", destFile);
+                        string selectPages = string.Format("1-{0}", pdfDetail.pages);
+                        if (!Utils.IsNullOrBlank(pdfDetail.userSelectedPages))
+                        {
+                            selectPages = pdfDetail.userSelectedPages;
+                        }
+
+                        string filePath = pdfDetail.fullPath;
+
+                        String tempFilename = string.Format("pdf_temp_{0}.pdf", i);
+                        string tempFilePath = System.IO.Path.Combine(tempFolder, tempFilename);
+
+                        // action 1. split
+                        KeepSelectedPages(filePath, selectPages, tempFilePath);
+
+                        // add temp file paths to list so we know where they are
+                        lstTempFilesFullPathList.Add(tempFilePath);
+                    }
 
                     // define final PDF path & filename
-                    string finalFile = System.IO.Path.Combine(outputFolder, "final.pdf");
+                    string finalFile = System.IO.Path.Combine(outputFolder, "final.pdf"); // user should be able to name their own file (with default filename given)
 
                     // action 2. merge
-                    IEnumerable<string> filenames = new string[] { destFile, "full path of file that will be combined" };
+                    IEnumerable<string> filenames = lstTempFilesFullPathList.ToArray();
                     MergePDFs(filenames, finalFile);
-                    
+
+                    // action 3. purge temp files
+
+
                 }
             }
             catch (Exception ex)
@@ -524,16 +544,17 @@ namespace NGiE
             {
                 // reference: https://stackoverflow.com/questions/1168976/wpf-datagrid-button-in-a-column-getting-the-row-from-which-it-came-on-the-cli/4926268
                 CustomPDFDocumentDetails pdfDetail = ((FrameworkElement)sender).DataContext as CustomPDFDocumentDetails;
-                
+
                 SinglePDFDetailsWindow sw = new SinglePDFDetailsWindow(EnableErrorLog);
                 sw.Owner = Application.Current.MainWindow; // We must also set the owner for this to work.
                 sw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                sw.originalTotalPages = pdfDetail.pages;
                 sw.ShowDialog();
-                
+
                 if (sw.DialogResult.HasValue && sw.DialogResult.Value)
                 {
                     pdfDetail.userSelectedPages = sw.SelectedPages;
-                    
+
                     // after made change, refresh the grid
                     dgPDFs.Items.Refresh();
                 }

@@ -22,6 +22,8 @@ namespace NGiE
 
         public string SelectedPages = string.Empty;
 
+        public int originalTotalPages = 0;
+
         private bool EnableErrorLog = true;
 
         public SinglePDFDetailsWindow()
@@ -31,8 +33,27 @@ namespace NGiE
 
         public SinglePDFDetailsWindow(bool _EnableErrorLog)
         {
-            EnableErrorLog = _EnableErrorLog;
-            InitializeComponent();
+            try
+            {
+                EnableErrorLog = _EnableErrorLog;
+
+                if (originalTotalPages > 0)
+                {
+                    tbSelectedPages.Text = string.Format("1-{0}", originalTotalPages);
+                }
+                else
+                {
+                    // Doc has no pages... 
+                    tbSelectedPages.Text = "Error";
+                    tbSelectedPages.IsEnabled = false;
+                }
+
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                Utils.WriteErrorMessageToFile(ex.ToString(), EnableErrorLog);
+            }
         }
 
         private void stackPnlHeader_MouseDown(object sender, MouseButtonEventArgs e)
@@ -55,6 +76,8 @@ namespace NGiE
         {
             try
             {
+                SelectedPages = tbSelectedPages.Text;
+
                 this.DialogResult = true;
             }
             catch (Exception ex)
@@ -67,7 +90,7 @@ namespace NGiE
         {
             try
             {
-                this.DialogResult = false; 
+                this.DialogResult = false;
                 Close(); // close the window
             }
             catch (Exception ex)
